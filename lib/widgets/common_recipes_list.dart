@@ -27,9 +27,9 @@ class _CommonRecipesListState extends State<CommonRecipesList> {
                   fontWeight: FontWeight.bold),
             ),
           ),
-          const Expanded(
+          Expanded(
             child: Padding(
-              padding: EdgeInsets.only(bottom: 10, left: 10, right: 10),
+              padding: const EdgeInsets.only(bottom: 10, left: 10, right: 10),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [

@@ -53,10 +53,11 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyBcZ2fMYSLtUYqsoHuT4KEYPkkozchgEZM',
-    appId: '1:797095610748:android:943b1989211426ae5b7cf9',
-    messagingSenderId: '797095610748',
-    projectId: 'fridgerooney-73685',
-    storageBucket: 'fridgerooney-73685.appspot.com',
-  );
+      apiKey: 'AIzaSyBcZ2fMYSLtUYqsoHuT4KEYPkkozchgEZM',
+      appId: '1:797095610748:android:943b1989211426ae5b7cf9',
+      messagingSenderId: '797095610748',
+      projectId: 'fridgerooney-73685',
+      storageBucket: 'fridgerooney-73685.appspot.com',
+      databaseURL:
+          'https://fridgerooney-73685-default-rtdb.europe-west1.firebasedatabase.app/');
 }

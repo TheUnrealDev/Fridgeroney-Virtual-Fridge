@@ -1,3 +1,4 @@
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:fridgeroney/widgets/common_recipes_list.dart';
 import 'package:fridgeroney/widgets/open_scan_page_button.dart';

@@ -1,3 +1,4 @@
+import 'package:firebase_database/firebase_database.dart';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:fridgeroney/models/auth_model.dart';

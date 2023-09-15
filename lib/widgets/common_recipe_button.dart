@@ -1,12 +1,21 @@
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 
 class CommonRecipeButton extends StatelessWidget {
-  const CommonRecipeButton({super.key});
+  CommonRecipeButton({super.key});
+
+  final DatabaseReference ref = FirebaseDatabase.instance.ref();
+  void onPressed() async {
+    debugPrint("done");
+    await ref.update({"Hejsan/Time": 20});
+
+    debugPrint("done 2");
+  }
 
   @override
   Widget build(BuildContext context) {
     return TextButton(
-      onPressed: () {},
+      onPressed: onPressed,
       child: Container(
         decoration: BoxDecoration(
           color: Colors.white,
