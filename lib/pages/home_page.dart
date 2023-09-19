@@ -1,4 +1,3 @@
-import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:fridgeroney/widgets/common_recipes_list.dart';
 import 'package:fridgeroney/widgets/open_scan_page_button.dart';
@@ -14,6 +13,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
+    debugPrint("home page rebuilt");
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).primaryColorDark,

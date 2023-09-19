@@ -1,13 +1,20 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 
 class CommonRecipeButton extends StatelessWidget {
   CommonRecipeButton({super.key});
 
-  final DatabaseReference ref = FirebaseDatabase.instance.ref();
+  final String dbRef = FirebaseAuth.instance.currentUser == null
+      ? ''
+      : 'recipes/${FirebaseAuth.instance.currentUser?.uid}';
+
+  final DatabaseReference ref = FirebaseDatabase.instance
+      .ref('recipes/${FirebaseAuth.instance.currentUser?.uid}');
+
   void onPressed() async {
     debugPrint("done");
-    await ref.update({"Hejsan/Time": 20});
+    await ref.update({'B': 2});
 
     debugPrint("done 2");
   }

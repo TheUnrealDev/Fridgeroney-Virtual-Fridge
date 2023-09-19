@@ -1,7 +1,7 @@
-import 'package:firebase_database/firebase_database.dart';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:fridgeroney/models/auth_model.dart';
+import 'package:fridgeroney/models/ingredient_model.dart';
 import 'package:fridgeroney/pages/home_page.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
@@ -15,12 +15,25 @@ Future<void> main() async {
   final List<CameraDescription> cameras = await availableCameras();
   final CameraDescription mainCam = cameras.first;
 
-  runApp(ChangeNotifierProvider(
-    create: (_) => AuthModel(),
-    child: MyApp(
-      mainCamera: mainCam,
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider<AuthModel>(create: (_) => AuthModel()),
+        ChangeNotifierProvider<IngredientModel>(
+            create: (_) => IngredientModel()),
+      ],
+      child: MyApp(mainCamera: mainCam),
     ),
-  ));
+    /*ChangeNotifierProvider(
+      create: (_) => AuthModel(),
+      child: ChangeNotifierProvider(
+        create: (_) => IngredientModel(),
+        child: MyApp(
+          mainCamera: mainCam,
+        ),
+      ),
+    ),*/
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -40,6 +53,11 @@ class MyApp extends StatelessWidget {
         if (auth.isSignedIn) {
           debugPrint("User Is Logged In!");
           return const HomePage();
+          /*return Consumer<IngredientModel>(
+            builder: (_, ingredients, ___) {
+              return const HomePage();
+            },
+          );*/
         } else {
           debugPrint("User Is Not Logged In");
           return const LoginPage();

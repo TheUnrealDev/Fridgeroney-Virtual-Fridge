@@ -6,6 +6,10 @@ class AuthModel extends ChangeNotifier {
 
   bool get isSignedIn => _auth.currentUser != null;
 
+  AuthModel() {
+    debugPrint("auth model created");
+  }
+
   Future<bool> signUp(String email, String password) async {
     bool success = false;
     try {

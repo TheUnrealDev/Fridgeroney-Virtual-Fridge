@@ -1,5 +1,6 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:fridgeroney/widgets/common_recipe_button.dart';
+import 'package:fridgeroney/services/database_service.dart';
 
 class CommonRecipesList extends StatefulWidget {
   const CommonRecipesList({super.key});
@@ -9,8 +10,12 @@ class CommonRecipesList extends StatefulWidget {
 }
 
 class _CommonRecipesListState extends State<CommonRecipesList> {
+  User? user = FirebaseAuth.instance.currentUser;
+
   @override
   Widget build(BuildContext context) {
+    DatabaseService databaseService = DatabaseService(userId: user!.uid);
+
     return Container(
       color: Theme.of(context).primaryColorLight,
       height: 250,
@@ -30,14 +35,22 @@ class _CommonRecipesListState extends State<CommonRecipesList> {
           Expanded(
             child: Padding(
               padding: const EdgeInsets.only(bottom: 10, left: 10, right: 10),
-              child: Column(
+              child: FutureBuilder(
+                  future: databaseService.getCommonRecipes(),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      return const Center(child: CircularProgressIndicator());
+                    }
+                    return const Text("hej");
+                  }),
+              /*child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   CommonRecipeButton(),
                   CommonRecipeButton(),
                   CommonRecipeButton(),
                 ],
-              ),
+              ),*/
             ),
           ),
         ],

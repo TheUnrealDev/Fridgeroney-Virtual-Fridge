@@ -1,41 +1,32 @@
 import 'package:flutter/material.dart';
+import 'package:fridgeroney/models/ingredient_model.dart';
+import 'package:provider/provider.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
-
 
 class OpenScanButton extends StatelessWidget {
   const OpenScanButton({super.key});
 
-  void scanBarCode() async {
+  void scanBarCode(BuildContext context) async {
+    IngredientModel ingredientModel =
+        Provider.of<IngredientModel>(context, listen: false);
     String barcodeScanRes = await FlutterBarcodeScanner.scanBarcode(
-      "#ff6666",
-      "Cancel",
-      false,
-      ScanMode.BARCODE,
-    );
+        "#ff6666", "Cancel", false, ScanMode.BARCODE);
     if (barcodeScanRes == '-1') {
       debugPrint("No barcode found");
+    } else {
+      if (ingredientModel.isInIngredientList(barcodeScanRes)) {
+        debugPrint("Already scanned! Barcode: $barcodeScanRes");
+      } else {
+        debugPrint(barcodeScanRes);
+      }
     }
-    debugPrint(barcodeScanRes);
-    /*FlutterBarcodeScanner.getBarcodeStreamReceiver(
-            "#ff6666", "Cancel", false, ScanMode.DEFAULT)
-        ?.listen(
-      (barcode) {
-        debugPrint(barcode);
-      },
-    );*/
   }
 
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
       onPressed: () {
-        scanBarCode();
-        /*Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: ((context) => ScanPage(camera: MyApp.mainCam)),
-          ),
-        );*/
+        scanBarCode(context);
       },
       style: ElevatedButton.styleFrom(
         shape: RoundedRectangleBorder(
