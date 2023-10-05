@@ -3,14 +3,15 @@ import 'package:flutter/material.dart';
 
 class Ingredient {
   final String barCode;
-  final String name;
-  final int amount;
+  String name;
+  int amount;
+  String ingredientType;
 
-  Ingredient({
-    required this.barCode,
-    required this.name,
-    required this.amount,
-  }) {
+  Ingredient(
+      {required this.barCode,
+      this.amount = 0,
+      this.name = 'Default',
+      this.ingredientType = 'Unknown'}) {
     debugPrint("eh");
   }
 
@@ -33,6 +34,7 @@ class Ingredient {
       barCode: data.key ?? '',
       name: mapData['name'] ?? '',
       amount: mapData['amount'] ?? 0,
+      ingredientType: mapData['ingredientType'] ?? '',
     );
   }
 }

@@ -24,15 +24,6 @@ Future<void> main() async {
       ],
       child: MyApp(mainCamera: mainCam),
     ),
-    /*ChangeNotifierProvider(
-      create: (_) => AuthModel(),
-      child: ChangeNotifierProvider(
-        create: (_) => IngredientModel(),
-        child: MyApp(
-          mainCamera: mainCam,
-        ),
-      ),
-    ),*/
   );
 }
 
@@ -53,11 +44,6 @@ class MyApp extends StatelessWidget {
         if (auth.isSignedIn) {
           debugPrint("User Is Logged In!");
           return const HomePage();
-          /*return Consumer<IngredientModel>(
-            builder: (_, ingredients, ___) {
-              return const HomePage();
-            },
-          );*/
         } else {
           debugPrint("User Is Not Logged In");
           return const LoginPage();

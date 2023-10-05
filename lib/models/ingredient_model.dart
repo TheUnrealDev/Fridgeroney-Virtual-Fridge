@@ -20,12 +20,12 @@ class IngredientModel extends ChangeNotifier {
     );
   }
 
-  bool isInIngredientList(String barCode) {
+  Ingredient? getScannedIngredientFromBarCode(String barCode) {
     for (Ingredient ingredient in ingredients) {
       if (ingredient.barCode == barCode) {
-        return true;
+        return ingredient;
       }
     }
-    return false;
+    return null;
   }
 }
