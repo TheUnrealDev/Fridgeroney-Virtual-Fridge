@@ -17,7 +17,6 @@ class PageSelectButton extends StatelessWidget {
       child: ElevatedButton(
         onPressed: () {
           authModel.signOut();
-          debugPrint(buttonTitle);
         },
         style: ElevatedButton.styleFrom(
           backgroundColor: Theme.of(context).primaryColor,

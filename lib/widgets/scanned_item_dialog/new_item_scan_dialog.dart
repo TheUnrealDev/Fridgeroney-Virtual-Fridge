@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fridgeroney/pages/register_item_page.dart';
 
 import '../../data_classes/ingredient.dart';
 
@@ -68,7 +69,12 @@ class _NewItemScannedDialogState extends State<NewItemScannedDialog> {
                   child: Container(
                     color: Theme.of(context).primaryColor,
                     child: TextButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context) {
+                          return RegisterItemPage(newItem: widget.newItem);
+                        }));
+                      },
                       child: const Text(
                         "Register",
                         style: TextStyle(color: Colors.white),

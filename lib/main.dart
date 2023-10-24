@@ -1,5 +1,7 @@
 import 'package:camera/camera.dart';
+import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:fridgeroney/models/auth_model.dart';
 import 'package:fridgeroney/models/ingredient_model.dart';
 import 'package:fridgeroney/pages/home_page.dart';
@@ -10,7 +12,9 @@ import 'pages/login_page.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  await FirebaseAppCheck.instance.activate();
 
   final List<CameraDescription> cameras = await availableCameras();
   final CameraDescription mainCam = cameras.first;

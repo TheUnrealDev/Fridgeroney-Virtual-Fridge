@@ -10,8 +10,6 @@ class IngredientModel extends ChangeNotifier {
   List<Ingredient> ingredients = [];
 
   IngredientModel() {
-    debugPrint("ingredient model created");
-
     databaseService.ingredientsReference.onValue.listen(
       (event) {
         ingredients =
@@ -27,5 +25,9 @@ class IngredientModel extends ChangeNotifier {
       }
     }
     return null;
+  }
+
+  void addNewIngredient(Ingredient ingredient) {
+    databaseService.addNewIngredient(ingredient);
   }
 }

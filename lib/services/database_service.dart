@@ -1,4 +1,5 @@
 import 'package:firebase_database/firebase_database.dart';
+import 'package:flutter/material.dart';
 import 'package:fridgeroney/data_classes/ingredient.dart';
 
 class DatabaseService {
@@ -9,8 +10,7 @@ class DatabaseService {
 
   DatabaseService({required this.userId}) {
     recipesReference = FirebaseDatabase.instance.ref('recipes/$userId');
-    ingredientsReference =
-        FirebaseDatabase.instance.ref('ingredients/'); //$userId
+    ingredientsReference = FirebaseDatabase.instance.ref('ingredients/$userId');
   }
 
   List<Ingredient> getIngredientsFromDataSnapshot(DataSnapshot data) {
@@ -28,5 +28,15 @@ class DatabaseService {
     return Future.delayed(const Duration(seconds: 2), () {
       return true;
     });
+  }
+
+  void addNewIngredient(Ingredient ingredient) {
+    ingredientsReference.update(
+      {
+        "${ingredient.barCode}/name": ingredient.name,
+        "${ingredient.barCode}/type": ingredient.ingredientType,
+        "${ingredient.barCode}/amount": ingredient.amount,
+      },
+    );
   }
 }

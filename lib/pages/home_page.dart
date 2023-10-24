@@ -15,7 +15,10 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  bool isScanDialogVisible = false;
+
   void showScannedItemDialog(context, scannedIngredientModel) {
+    isScanDialogVisible = true;
     showDialog(
       barrierDismissible: false,
       context: context,
@@ -23,12 +26,17 @@ class _HomePageState extends State<HomePage> {
         onWillPop: () async => Future.value(false),
         child: ItemScanDialog(scannedIngredientModel: scannedIngredientModel),
       ),
+    ).then(
+      (value) => {
+        isScanDialogVisible = false,
+      },
     );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         backgroundColor: Theme.of(context).primaryColorDark,
         toolbarHeight: 0,
@@ -37,8 +45,7 @@ class _HomePageState extends State<HomePage> {
         create: (context) => ScannedIngredientModel(),
         child: Consumer<ScannedIngredientModel>(
           builder: (context, value, child) {
-            if (value.scannedIngredient != null) {
-              debugPrint("ITEM SCANNED");
+            if (value.scannedIngredient != null && !isScanDialogVisible) {
               Future.delayed(
                 Duration.zero,
                 () => showScannedItemDialog(context, value),
@@ -76,7 +83,9 @@ class _HomePageState extends State<HomePage> {
                   onPressed: () {
                     Provider.of<ScannedIngredientModel>(context, listen: false)
                         .changeScannedIngredient(
-                            Ingredient(barCode: "barcode0x2292"), false);
+                      Ingredient(barCode: "barcode0x2292"),
+                      false,
+                    );
                   },
                 ),
                 const CommonRecipesList(),

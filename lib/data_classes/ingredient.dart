@@ -7,13 +7,12 @@ class Ingredient {
   int amount;
   String ingredientType;
 
-  Ingredient(
-      {required this.barCode,
-      this.amount = 0,
-      this.name = 'Default',
-      this.ingredientType = 'Unknown'}) {
-    debugPrint("eh");
-  }
+  Ingredient({
+    required this.barCode,
+    this.amount = 0,
+    this.name = 'Default',
+    this.ingredientType = 'Unknown',
+  });
 
   @override
   String toString() {
