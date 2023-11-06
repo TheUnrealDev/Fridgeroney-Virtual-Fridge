@@ -3,6 +3,7 @@ import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fridgeroney/models/auth_model.dart';
+import 'package:fridgeroney/models/category_model.dart';
 import 'package:fridgeroney/models/ingredient_model.dart';
 import 'package:fridgeroney/pages/home_page.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -24,7 +25,11 @@ Future<void> main() async {
       providers: [
         ChangeNotifierProvider<AuthModel>(create: (_) => AuthModel()),
         ChangeNotifierProvider<IngredientModel>(
-            create: (_) => IngredientModel()),
+          create: (_) => IngredientModel(),
+        ),
+        ChangeNotifierProvider<CategoryModel>(
+          create: (_) => CategoryModel(),
+        ),
       ],
       child: MyApp(mainCamera: mainCam),
     ),

@@ -1,18 +1,16 @@
 import 'package:flutter/material.dart';
 
 class UserCredentialsForm extends StatefulWidget {
-  final GlobalKey<FormState> _formKey;
-  final TextEditingController _emailController;
-  final TextEditingController _passController;
+  final GlobalKey<FormState> formKey;
+  final TextEditingController emailController;
+  final TextEditingController passController;
 
   const UserCredentialsForm({
     super.key,
-    required GlobalKey<FormState> formKey,
-    required TextEditingController emailController,
-    required TextEditingController passController,
-  })  : _formKey = formKey,
-        _emailController = emailController,
-        _passController = passController;
+    required this.formKey,
+    required this.emailController,
+    required this.passController,
+  });
 
   @override
   State<UserCredentialsForm> createState() => _UserCredentialsFormState();
@@ -24,7 +22,7 @@ class _UserCredentialsFormState extends State<UserCredentialsForm> {
   @override
   Widget build(BuildContext context) {
     return Form(
-      key: widget._formKey,
+      key: widget.formKey,
       child: Column(
         children: [
           TextFormField(
@@ -34,7 +32,7 @@ class _UserCredentialsFormState extends State<UserCredentialsForm> {
               }
               return null;
             },
-            controller: widget._emailController,
+            controller: widget.emailController,
             style: const TextStyle(fontSize: 18),
             decoration: const InputDecoration(
               label: Text(
@@ -51,7 +49,7 @@ class _UserCredentialsFormState extends State<UserCredentialsForm> {
               }
               return null;
             },
-            controller: widget._passController,
+            controller: widget.passController,
             style: const TextStyle(fontSize: 18),
             obscureText: _obscurePassword,
             decoration: InputDecoration(

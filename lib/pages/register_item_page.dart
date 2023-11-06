@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:fridgeroney/data_classes/ingredient.dart';
+import 'package:fridgeroney/data_classes/item_category.dart';
+import 'package:fridgeroney/models/category_model.dart';
 import 'package:fridgeroney/models/ingredient_model.dart';
+import 'package:fridgeroney/pages/select_category_page.dart';
 import 'package:provider/provider.dart';
 
 class RegisterItemPage extends StatefulWidget {
@@ -13,15 +16,46 @@ class RegisterItemPage extends StatefulWidget {
 
 class _RegisterItemPageState extends State<RegisterItemPage> {
   final _formKey = GlobalKey<FormState>();
-  final _itemNameController = TextEditingController(text: "Unknown");
-  final _itemTypeController = TextEditingController();
-  final _itemAmountController = TextEditingController(text: "1");
+  final _itemNameController = TextEditingController();
+
+  int itemAmount = 1;
+
+  String? itemTypeErrorMessage;
+
+  ItemCategory? selectedCategory;
   late IngredientModel ingredientModel;
+  late CategoryModel categoryModel;
+
+  void selectCategory() async {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: ((context) => const SelectCategoryPage()),
+      ),
+    ).then(
+      (value) {
+        ItemCategory? newCategory = selectedCategory;
+        if (value.runtimeType == ItemCategory) {
+          newCategory = value;
+        } else if (!categoryModel.categoryExists(selectedCategory)) {
+          newCategory = null;
+        }
+
+        if (selectedCategory != newCategory) {
+          setState(
+            () {
+              selectedCategory = newCategory;
+            },
+          );
+        }
+      },
+    );
+  }
 
   void updateNewItem() {
     widget.newItem.name = _itemNameController.text;
-    widget.newItem.ingredientType = _itemTypeController.text;
-    widget.newItem.amount = int.tryParse(_itemAmountController.text) ?? 1;
+    widget.newItem.ingredientType = selectedCategory!.typeName;
+    widget.newItem.amount = itemAmount;
   }
 
   void submitForm() {
@@ -42,9 +76,21 @@ class _RegisterItemPageState extends State<RegisterItemPage> {
     return null;
   }
 
+  void incrementItemAmount(int increment) {
+    if (itemAmount + increment < 1) {
+      // If the increment would cause itemAmount to become less than 1
+      // Change the increment so that itemAmount becomes 1.
+      increment = 1 - itemAmount;
+    }
+    setState(() {
+      itemAmount += increment;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     ingredientModel = Provider.of<IngredientModel>(context);
+    categoryModel = Provider.of<CategoryModel>(context);
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
@@ -78,49 +124,145 @@ class _RegisterItemPageState extends State<RegisterItemPage> {
                       decoration: const InputDecoration(
                         label: Text(
                           "Item Name",
-                          style: TextStyle(fontSize: 18),
+                          style: TextStyle(fontSize: 16),
                         ),
                       ),
                     ),
                     const SizedBox(
-                      height: 20,
+                      height: 25,
                     ),
-                    TextFormField(
-                      controller: _itemTypeController,
-                      validator: validateTextField,
-                      decoration: const InputDecoration(
-                        label: Text(
-                          "Item Type",
-                          style: TextStyle(fontSize: 18),
-                        ),
-                      ),
+                    FormField(
+                      validator: (value) {
+                        String? errorMessage;
+                        if (selectedCategory == null) {
+                          errorMessage = "Please select an item type!";
+                        }
+                        setState(() {
+                          itemTypeErrorMessage = errorMessage;
+                        });
+                      },
+                      builder: (field) {
+                        return Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Row(
+                              children: [
+                                const Text(
+                                  "Item Type:",
+                                  style: TextStyle(fontSize: 16),
+                                ),
+                                const SizedBox(
+                                  width: 15,
+                                ),
+                                FilledButton(
+                                  onPressed: selectCategory,
+                                  style: FilledButton.styleFrom(
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                  ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 30),
+                                    child: Text(selectedCategory == null
+                                        ? "Select"
+                                        : selectedCategory!.capitalizeName()),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Text(
+                              itemTypeErrorMessage ?? '',
+                              style: TextStyle(
+                                color: Theme.of(context).colorScheme.error,
+                              ),
+                            ),
+                          ],
+                        );
+                      },
                     ),
                     const SizedBox(
                       height: 30,
                     ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 100),
-                      child: TextFormField(
-                        controller: _itemAmountController,
-                        validator: (value) {
-                          if (value == null || int.tryParse(value) == null) {
-                            return "Please input a whole number!";
-                          }
-                          return null;
-                        },
-                        decoration: const InputDecoration(
-                          label: Text(
-                            "Amount",
-                            style: TextStyle(fontSize: 18),
-                          ),
+                    FormField(
+                      builder: (field) {
+                        return Column(
+                          children: [
+                            const Text(
+                              "Item Amount:",
+                              style: TextStyle(fontSize: 16),
+                            ),
+                            const SizedBox(
+                              height: 15,
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                ElevatedButton(
+                                  onPressed: () {
+                                    incrementItemAmount(-1);
+                                  },
+                                  style: ElevatedButton.styleFrom(
+                                    shape: const CircleBorder(),
+                                  ),
+                                  child: const Text(
+                                    "-",
+                                    style: TextStyle(
+                                        fontSize: 40,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                ),
+                                const SizedBox(
+                                  width: 10,
+                                ),
+                                Text(
+                                  itemAmount.toString(),
+                                  style: const TextStyle(
+                                    fontSize: 20,
+                                  ),
+                                ),
+                                const SizedBox(
+                                  width: 10,
+                                ),
+                                ElevatedButton(
+                                  onPressed: () {
+                                    incrementItemAmount(1);
+                                  },
+                                  style: ElevatedButton.styleFrom(
+                                    shape: const CircleBorder(),
+                                  ),
+                                  child: const Text(
+                                    "+",
+                                    style: TextStyle(
+                                        fontSize: 40,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        );
+                      },
+                    ),
+                    const SizedBox(
+                      height: 100,
+                    ),
+                    FilledButton(
+                      onPressed: submitForm,
+                      style: FilledButton.styleFrom(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                      ),
+                      child: const Padding(
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 45, vertical: 18),
+                        child: Text(
+                          "Add Item",
+                          style: TextStyle(fontSize: 16),
                         ),
                       ),
                     ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    TextButton(
-                        onPressed: submitForm, child: const Text("Add Item")),
                   ],
                 ),
               )

@@ -1,5 +1,5 @@
 import 'package:firebase_database/firebase_database.dart';
-import 'package:flutter/material.dart';
+import '../data_classes/item_category.dart';
 import 'package:fridgeroney/data_classes/ingredient.dart';
 
 class DatabaseService {
@@ -7,10 +7,13 @@ class DatabaseService {
 
   late DatabaseReference recipesReference;
   late DatabaseReference ingredientsReference;
+  late DatabaseReference categoriesReference;
 
   DatabaseService({required this.userId}) {
     recipesReference = FirebaseDatabase.instance.ref('recipes/$userId');
     ingredientsReference = FirebaseDatabase.instance.ref('ingredients/$userId');
+    categoriesReference =
+        FirebaseDatabase.instance.ref('item_categories/$userId');
   }
 
   List<Ingredient> getIngredientsFromDataSnapshot(DataSnapshot data) {
@@ -22,6 +25,17 @@ class DatabaseService {
       ingredients.add(newIngredient);
     }
     return ingredients;
+  }
+
+  List<ItemCategory> getCategoriesFromDataSnapshot(DataSnapshot data) {
+    Iterable<DataSnapshot> categoryList = data.children;
+    List<ItemCategory> categories = [];
+
+    for (DataSnapshot category in categoryList) {
+      ItemCategory newCategory = ItemCategory.fromDataSnapShot(category);
+      categories.add(newCategory);
+    }
+    return categories;
   }
 
   Future<bool> getCommonRecipes() {
@@ -38,5 +52,19 @@ class DatabaseService {
         "${ingredient.barCode}/amount": ingredient.amount,
       },
     );
+  }
+
+  void addNewCategory(ItemCategory category) {
+    categoriesReference.push().set(
+      {
+        "name": category.typeName,
+      },
+    );
+  }
+
+  void removeCategory(ItemCategory category) {
+    if (category.categoryId != null) {
+      categoriesReference.update({category.categoryId!: null});
+    }
   }
 }

@@ -75,7 +75,9 @@ class _HomePageState extends State<HomePage> {
                   onPressed: () {
                     Provider.of<ScannedIngredientModel>(context, listen: false)
                         .changeScannedIngredient(
-                            Ingredient(barCode: "barcode0x2292"), true);
+                      Ingredient(barCode: "barcode0x2293"),
+                      true,
+                    );
                   },
                 ),
                 TextButton(
@@ -83,7 +85,7 @@ class _HomePageState extends State<HomePage> {
                   onPressed: () {
                     Provider.of<ScannedIngredientModel>(context, listen: false)
                         .changeScannedIngredient(
-                      Ingredient(barCode: "barcode0x2292"),
+                      Ingredient(barCode: "barcode0x2293"),
                       false,
                     );
                   },

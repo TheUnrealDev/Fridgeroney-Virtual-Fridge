@@ -13,10 +13,7 @@ class CommonRecipeButton extends StatelessWidget {
       .ref('recipes/${FirebaseAuth.instance.currentUser?.uid}');
 
   void onPressed() async {
-    debugPrint("done");
     await ref.update({'B': 2});
-
-    debugPrint("done 2");
   }
 
   @override

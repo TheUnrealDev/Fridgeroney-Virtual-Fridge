@@ -6,9 +6,7 @@ class AuthModel extends ChangeNotifier {
 
   bool get isSignedIn => _auth.currentUser != null;
 
-  AuthModel() {
-    debugPrint("auth model created");
-  }
+  AuthModel();
 
   Future<bool> signUp(String email, String password) async {
     bool success = false;
@@ -41,13 +39,15 @@ class AuthModel extends ChangeNotifier {
     return success;
   }
 
-  void signIn(String email, String password) async {
+  Future<bool> signIn(String email, String password) async {
+    bool success = false;
     try {
       await FirebaseAuth.instance.signInWithEmailAndPassword(
         email: email,
         password: password,
       );
       notifyListeners();
+      success = true;
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
         debugPrint('No user found for that email.');
@@ -57,6 +57,7 @@ class AuthModel extends ChangeNotifier {
         debugPrint(e.code);
       }
     }
+    return success;
   }
 
   void signOut() async {

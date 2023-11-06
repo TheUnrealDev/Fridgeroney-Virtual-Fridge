@@ -17,10 +17,37 @@ class _SignUpPageState extends State<SignUpPage> {
 
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passController = TextEditingController();
+  bool _warnIncorrectCredentials = false;
+
+  late AuthModel authModel;
+
+  void signUp() {
+    if (_formKey.currentState!.validate()) {
+      Future<bool> accountCreationSuccess = authModel.signUp(
+          _emailController.value.text, _passController.value.text);
+      accountCreationSuccess.then(
+        (success) => {
+          debugPrint(success.toString()),
+          if (success)
+            {
+              Navigator.popUntil(context, (route) => route.isFirst),
+            }
+          else
+            {
+              setState(
+                () {
+                  _warnIncorrectCredentials = true;
+                },
+              )
+            },
+        },
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    AuthModel authModel = context.read<AuthModel>();
+    authModel = Provider.of<AuthModel>(context);
 
     return Container(
       decoration: const BoxDecoration(
@@ -58,22 +85,21 @@ class _SignUpPageState extends State<SignUpPage> {
                       emailController: _emailController,
                       passController: _passController),
                 ),
+                Visibility(
+                  visible: _warnIncorrectCredentials,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      "Your email is (invalid or in use) or your password is not strong enough!",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: Theme.of(context).colorScheme.error,
+                      ),
+                    ),
+                  ),
+                ),
                 FilledButton(
-                  onPressed: () {
-                    if (_formKey.currentState!.validate()) {
-                      Future<bool> accountCreationSuccess = authModel.signUp(
-                          _emailController.value.text,
-                          _passController.value.text);
-                      accountCreationSuccess.then(
-                        (success) => {
-                          if (success)
-                            {
-                              Navigator.pop(context),
-                            }
-                        },
-                      );
-                    }
-                  },
+                  onPressed: signUp,
                   child: const Padding(
                     padding: EdgeInsets.symmetric(horizontal: 50),
                     child: Text("Create Account"),

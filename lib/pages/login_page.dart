@@ -17,6 +17,7 @@ class _LoginPageState extends State<LoginPage> {
 
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passController = TextEditingController();
+  bool _warnIncorrectLoginInfo = false;
 
   @override
   Widget build(BuildContext context) {
@@ -58,11 +59,32 @@ class _LoginPageState extends State<LoginPage> {
                       emailController: _emailController,
                       passController: _passController),
                 ),
+                Visibility(
+                  visible: _warnIncorrectLoginInfo,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      "The username or password is incorrect!",
+                      style:
+                          TextStyle(color: Theme.of(context).colorScheme.error),
+                    ),
+                  ),
+                ),
                 FilledButton(
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
-                      authModel.signIn(_emailController.value.text,
+                      Future<bool> success = authModel.signIn(
+                          _emailController.value.text,
                           _passController.value.text);
+                      success.then(
+                        (value) => {
+                          setState(
+                            () {
+                              _warnIncorrectLoginInfo = !value;
+                            },
+                          )
+                        },
+                      );
                     }
                   },
                   child: const Padding(
