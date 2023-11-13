@@ -140,6 +140,7 @@ class _RegisterItemPageState extends State<RegisterItemPage> {
                         setState(() {
                           itemTypeErrorMessage = errorMessage;
                         });
+                        return;
                       },
                       builder: (field) {
                         return Column(

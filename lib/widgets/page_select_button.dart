@@ -6,9 +6,13 @@ import '../models/auth_model.dart';
 class PageSelectButton extends StatelessWidget {
   final String buttonTitle;
   final IconData buttonIcon;
+  final Widget targetPage;
 
   const PageSelectButton(
-      {super.key, required this.buttonTitle, required this.buttonIcon});
+      {super.key,
+      required this.buttonTitle,
+      required this.buttonIcon,
+      required this.targetPage});
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +20,9 @@ class PageSelectButton extends StatelessWidget {
     return Expanded(
       child: ElevatedButton(
         onPressed: () {
-          authModel.signOut();
+          Navigator.push(context, MaterialPageRoute(builder: (context) {
+            return targetPage;
+          }));
         },
         style: ElevatedButton.styleFrom(
           backgroundColor: Theme.of(context).primaryColor,

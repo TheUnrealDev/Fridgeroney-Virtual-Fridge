@@ -32,7 +32,7 @@ class Ingredient {
       barCode: data.key ?? '',
       name: mapData['name'] ?? '',
       amount: mapData['amount'] ?? 0,
-      ingredientType: mapData['ingredientType'] ?? '',
+      ingredientType: mapData['type'] ?? '',
     );
   }
 }
