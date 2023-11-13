@@ -8,9 +8,9 @@ class Ingredient {
 
   Ingredient({
     required this.barCode,
-    this.amount = 0,
+    this.amount = 1,
     this.name = 'Default',
-    this.ingredientType = 'Unknown',
+    this.ingredientType = '',
   });
 
   @override

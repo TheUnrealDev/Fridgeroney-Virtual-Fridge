@@ -49,8 +49,7 @@ class _SelectCategoryPageState extends State<SelectCategoryPage> {
             itemCount: categories.length + 1,
             itemBuilder: (BuildContext context, int index) {
               if (index == 0) {
-                return Expanded(
-                    child: SizedBox(
+                return SizedBox(
                   height: 60,
                   child: FilledButton(
                     style: FilledButton.styleFrom(
@@ -68,7 +67,7 @@ class _SelectCategoryPageState extends State<SelectCategoryPage> {
                       ],
                     ),
                   ),
-                ));
+                );
               }
               ItemCategory category = categories[index - 1];
 

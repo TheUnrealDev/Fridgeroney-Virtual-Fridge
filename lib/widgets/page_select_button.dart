@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-
-import '../models/auth_model.dart';
 
 class PageSelectButton extends StatelessWidget {
   final String buttonTitle;
@@ -16,7 +13,6 @@ class PageSelectButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    AuthModel authModel = context.read<AuthModel>();
     return Expanded(
       child: ElevatedButton(
         onPressed: () {

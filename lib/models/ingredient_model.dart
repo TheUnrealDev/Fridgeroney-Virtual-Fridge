@@ -16,6 +16,7 @@ class IngredientModel extends ChangeNotifier {
             databaseService.getIngredientsFromDataSnapshot(event.snapshot);
       },
     );
+    notifyListeners();
   }
 
   Ingredient? getScannedIngredientFromBarCode(String barCode) {

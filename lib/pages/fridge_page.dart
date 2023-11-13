@@ -16,6 +16,7 @@ class _FridgePageState extends State<FridgePage> {
   @override
   Widget build(BuildContext context) {
     IngredientModel ingredientModel = Provider.of<IngredientModel>(context);
+
     List<Ingredient> ingredients = ingredientModel.ingredients;
     return Scaffold(
       resizeToAvoidBottomInset: false,
