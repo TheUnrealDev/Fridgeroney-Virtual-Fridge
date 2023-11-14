@@ -12,12 +12,17 @@ class FridgeItem extends StatefulWidget {
 }
 
 class _FridgeItemState extends State<FridgeItem> {
+  bool deleted = false;
+
   void onIngredientUpdated() {
     setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
+    if (deleted) {
+      return Container();
+    }
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Container(
@@ -48,7 +53,7 @@ class _FridgeItemState extends State<FridgeItem> {
                     minimumSize: Size.zero,
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(5))),
-                onPressed: () {
+                onPressed: () async {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
@@ -57,6 +62,17 @@ class _FridgeItemState extends State<FridgeItem> {
                         onUpdate: onIngredientUpdated,
                       ),
                     ),
+                  ).then(
+                    (value) => {
+                      if (value != null && value == "Deleted")
+                        {
+                          setState(
+                            () {
+                              deleted = true;
+                            },
+                          )
+                        }
+                    },
                   );
                 },
                 child: const Padding(

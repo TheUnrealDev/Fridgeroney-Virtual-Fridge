@@ -24,6 +24,10 @@ class EditItemPage extends StatelessWidget {
       onUpdate();
     }
 
+    void deleteItem() {
+      ingredientModel.deleteIngredient(ingredient);
+    }
+
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
@@ -88,6 +92,15 @@ class EditItemPage extends StatelessWidget {
                 ],
               ),
             ),
+            ElevatedButton.icon(
+              onPressed: () {
+                deleteItem();
+                Navigator.pop(context, "Deleted");
+              },
+              style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
+              icon: const Icon(Icons.delete),
+              label: const Text("Delete"),
+            )
           ],
         ),
       ),

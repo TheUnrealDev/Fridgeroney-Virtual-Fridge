@@ -13,6 +13,7 @@ class FridgePage extends StatefulWidget {
 }
 
 class _FridgePageState extends State<FridgePage> {
+  bool showEmptyItems = false;
   @override
   Widget build(BuildContext context) {
     IngredientModel ingredientModel = Provider.of<IngredientModel>(context);
@@ -37,11 +38,22 @@ class _FridgePageState extends State<FridgePage> {
                       color: Theme.of(context).primaryColor),
                 ),
               ),
+              FilledButton(
+                onPressed: () {
+                  setState(() {
+                    showEmptyItems = !showEmptyItems;
+                  });
+                },
+                child: Text("${showEmptyItems ? "Hide" : "Show"} Empty Items"),
+              ),
               Expanded(
                 child: Scrollbar(
                   child: ListView.builder(
                     itemCount: ingredients.length,
                     itemBuilder: (context, int index) {
+                      if (!showEmptyItems && ingredients[index].amount <= 0) {
+                        return Container();
+                      }
                       return FridgeItem(ingredient: ingredients[index]);
                     },
                   ),

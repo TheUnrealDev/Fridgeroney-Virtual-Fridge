@@ -19,7 +19,8 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   bool isScanDialogVisible = false;
 
-  void showScannedItemDialog(context, scannedIngredientModel) {
+  void showScannedItemDialog(
+      context, ScannedIngredientModel scannedIngredientModel) {
     isScanDialogVisible = true;
     showDialog(
       barrierDismissible: false,
@@ -31,6 +32,7 @@ class _HomePageState extends State<HomePage> {
     ).then(
       (value) => {
         isScanDialogVisible = false,
+        scannedIngredientModel.scannedIngredient = null
       },
     );
   }
@@ -46,11 +48,12 @@ class _HomePageState extends State<HomePage> {
       body: ChangeNotifierProvider<ScannedIngredientModel>(
         create: (context) => ScannedIngredientModel(),
         child: Consumer<ScannedIngredientModel>(
-          builder: (context, value, child) {
-            if (value.scannedIngredient != null && !isScanDialogVisible) {
+          builder: (context, scannedIngredientModel, child) {
+            if (scannedIngredientModel.scannedIngredient != null &&
+                !isScanDialogVisible) {
               Future.delayed(
                 Duration.zero,
-                () => showScannedItemDialog(context, value),
+                () => showScannedItemDialog(context, scannedIngredientModel),
               );
             }
             return Column(

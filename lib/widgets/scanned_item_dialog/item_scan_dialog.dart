@@ -12,6 +12,7 @@ class ItemScanDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Ingredient? scannedIngredient = scannedIngredientModel.scannedIngredient;
+
     if (scannedIngredient == null) {
       return AlertDialog(
         title: const Text("Error loading information about your scanned item!"),

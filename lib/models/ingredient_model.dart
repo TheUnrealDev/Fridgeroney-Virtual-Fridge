@@ -31,4 +31,8 @@ class IngredientModel extends ChangeNotifier {
   void addNewIngredient(Ingredient ingredient) {
     databaseService.addNewIngredient(ingredient);
   }
+
+  void deleteIngredient(Ingredient ingredient) {
+    databaseService.deleteIngredient(ingredient);
+  }
 }

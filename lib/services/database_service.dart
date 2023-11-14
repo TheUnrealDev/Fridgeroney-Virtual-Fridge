@@ -54,6 +54,14 @@ class DatabaseService {
     );
   }
 
+  void deleteIngredient(Ingredient ingredient) {
+    ingredientsReference.update(
+      {
+        ingredient.barCode: null,
+      },
+    );
+  }
+
   void addNewCategory(ItemCategory category) {
     categoriesReference.push().set(
       {
