@@ -17,12 +17,4 @@ class ItemCategory {
       typeName: mapData['name'] ?? '',
     );
   }
-
-  String capitalizeName() {
-    if (typeName.isEmpty) {
-      return '';
-    } else {
-      return typeName[0].toUpperCase() + typeName.substring(1);
-    }
-  }
 }

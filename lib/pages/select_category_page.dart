@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:fridgeroney/data_classes/item_category.dart';
 import 'package:fridgeroney/models/category_model.dart';
 import 'package:fridgeroney/pages/create_category_page.dart';
+import 'package:fridgeroney/util/string_formatter.dart';
 import 'package:provider/provider.dart';
 
 class SelectCategoryPage extends StatefulWidget {
-  const SelectCategoryPage({super.key});
+  final bool allowCategoryCreation;
+  const SelectCategoryPage({super.key, this.allowCategoryCreation = true});
 
   @override
   State<SelectCategoryPage> createState() => _SelectCategoryPageState();
@@ -49,28 +51,29 @@ class _SelectCategoryPageState extends State<SelectCategoryPage> {
             itemCount: categories.length + 1,
             itemBuilder: (BuildContext context, int index) {
               if (index == 0) {
-                return SizedBox(
-                  height: 60,
-                  child: FilledButton(
-                    style: FilledButton.styleFrom(
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(5))),
-                    onPressed: createCategory,
-                    child: const Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(Icons.add),
-                        SizedBox(
-                          width: 10,
+                return !widget.allowCategoryCreation
+                    ? Container()
+                    : SizedBox(
+                        height: 60,
+                        child: FilledButton(
+                          style: FilledButton.styleFrom(
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(5))),
+                          onPressed: createCategory,
+                          child: const Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(Icons.add),
+                              SizedBox(
+                                width: 10,
+                              ),
+                              Text("Create New Category"),
+                            ],
+                          ),
                         ),
-                        Text("Create New Category"),
-                      ],
-                    ),
-                  ),
-                );
+                      );
               }
               ItemCategory category = categories[index - 1];
-
               return Container(
                 height: 60,
                 padding: const EdgeInsets.only(top: 20),
@@ -82,7 +85,7 @@ class _SelectCategoryPageState extends State<SelectCategoryPage> {
                         onPressed: () {
                           Navigator.pop(context, category);
                         },
-                        child: Text(category.capitalizeName()),
+                        child: Text(capitalizeString(category.typeName)),
                       ),
                     ),
                     IconButton(

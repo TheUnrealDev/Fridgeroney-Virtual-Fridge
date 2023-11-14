@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fridgeroney/util/string_formatter.dart';
 
 import '../pages/edit_item_page.dart';
 import '../data_classes/ingredient.dart';
@@ -27,26 +28,39 @@ class _FridgeItemState extends State<FridgeItem> {
       padding: const EdgeInsets.all(8.0),
       child: Container(
         decoration: BoxDecoration(
-          borderRadius: const BorderRadius.all(Radius.circular(5)),
+          borderRadius: const BorderRadius.all(Radius.circular(20)),
           color: Theme.of(context).primaryColorLight,
         ),
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
-                widget.ingredient.ingredientType,
-                style:
-                    const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      capitalizeString(widget.ingredient.ingredientType),
+                      style: const TextStyle(
+                          fontWeight: FontWeight.bold, fontSize: 14),
+                      textAlign: TextAlign.start,
+                    ),
+                    Text(
+                      capitalizeString(widget.ingredient.name),
+                    ),
+                  ],
+                ),
               ),
-              Text(
-                widget.ingredient.name,
-              ),
-              Text(
-                widget.ingredient.amount.toString(),
-                style:
-                    const TextStyle(fontSize: 25, fontWeight: FontWeight.w600),
+              Padding(
+                padding: const EdgeInsets.only(left: 10, right: 20),
+                child: Expanded(
+                  flex: 1,
+                  child: Text(
+                    widget.ingredient.amount.toString(),
+                    style: const TextStyle(
+                        fontSize: 25, fontWeight: FontWeight.w600),
+                  ),
+                ),
               ),
               FilledButton(
                 style: FilledButton.styleFrom(
@@ -76,7 +90,7 @@ class _FridgeItemState extends State<FridgeItem> {
                   );
                 },
                 child: const Padding(
-                  padding: EdgeInsets.symmetric(vertical: 5, horizontal: 8),
+                  padding: EdgeInsets.symmetric(vertical: 5),
                   child: Text("Edit"),
                 ),
               ),

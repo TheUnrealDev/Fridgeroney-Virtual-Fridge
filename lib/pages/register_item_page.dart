@@ -62,6 +62,9 @@ class _RegisterItemPageState extends State<RegisterItemPage> {
                 newItem: widget.newItem,
                 itemNameController: _itemNameController,
               ),
+              const SizedBox(
+                height: 30,
+              ),
               FilledButton(
                 onPressed: submitForm,
                 style: FilledButton.styleFrom(

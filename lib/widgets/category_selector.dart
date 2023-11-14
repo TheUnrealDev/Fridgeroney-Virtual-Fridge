@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fridgeroney/util/string_formatter.dart';
 import 'package:provider/provider.dart';
 
 import '../data_classes/item_category.dart';
@@ -84,9 +85,11 @@ class _CategorySelectorFieldState extends State<CategorySelectorField> {
                   ),
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 30),
-                    child: Text(selectedCategory == null
-                        ? widget.intialCategory ?? "Select"
-                        : selectedCategory!.capitalizeName()),
+                    child: Text(
+                      capitalizeString(selectedCategory == null
+                          ? widget.intialCategory ?? "Select"
+                          : selectedCategory!.typeName),
+                    ),
                   ),
                 ),
               ],
