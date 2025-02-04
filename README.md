@@ -1,16 +1,6 @@
-# fridgeroney
+# Fridgeroney
 
-A new Flutter project.
+A flutter project to help users keep track of groceries by letting them manage a virtual fridge.
+The application lets users scan the barcodes of groceries using their camera in order to add them to a virtual fridge. The fridge is managed through the app and is stored in a Realtime Database using Firebase.
 
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+The program was created for personal use.
